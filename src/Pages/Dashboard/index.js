@@ -7,10 +7,11 @@ function App() {
     <div className="App">
       <div className='musics-wrapper'>
         <h1>Your Playlist</h1>
-        <Music url={data.album.images[0].url} title={data.name} artist={data.artists[0].name}/>
-        <Music url={data.album.images[0].url} title={data.name} artist={data.artists[0].name}/>
-        <Music url={data.album.images[0].url} title={data.name} artist={data.artists[0].name}/>
-        <Music url={data.album.images[0].url} title={data.name} artist={data.artists[0].name}/>
+        {
+          data.map((music) => {
+            return <Music key={music.id} url={music.album.images[0].url} title={music.name} artist={music.artists[0].name}/>
+          })
+        }
       </div>
     </div>
   );

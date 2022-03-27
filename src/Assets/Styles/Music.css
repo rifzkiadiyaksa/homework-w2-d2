@@ -5,7 +5,9 @@
     float: left;
     padding: 30px;
     width: 200px;
+    height: 300px;
     margin: 10px;
+    position: relative;
 }
 
 .music-img img {
@@ -14,9 +16,13 @@
 }
 
 .btn {
-    width: 100px;
+    position: absolute;
+    bottom: 35px;
+    left: 55px;
+    width: 150px;
     height: 30px;
     border-radius: 10px;
+    border: none;
 }
 
 .music-title {
