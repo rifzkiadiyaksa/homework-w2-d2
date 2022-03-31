@@ -1,13 +1,6 @@
 import '../../Assets/Styles/App.css';
 import Music from '../../Components/Music';
-// import SearchBar from '../../Components/SearchBar';
-// import data from './data';
 import React, { useEffect, useState } from 'react';
-
-// console.log(process.env.REACT_APP_CLIENT_ID);
-// console.log(process.env.REACT_APP_CLIENT_SECRET);
-
-// https://accounts.spotify.com/authorize?response_type=token&client_id=&scope=&redirect_uri=&state=
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const SPOTIFY_AUTHORIZE_ENDPOINT = "https://accounts.spotify.com/authorize";
