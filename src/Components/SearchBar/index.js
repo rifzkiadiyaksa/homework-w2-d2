@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import '../../Assets/Styles/SearchBar.css';
 
-function SearchBar() {
+function SearchBar({handleInput, handleSearch}) {
 
     return (
-        <div className='SearchBar'>
-            <input type="text" />
-            <input type="submit" value="Search" />
-        </div>
+        <>
+            <form className='SearchBar' onSubmit={handleSearch}>
+                <input onChange={handleInput} type="text" />
+                <input type="submit" value="Search" />
+            </form>
+        </>
     );
     
 }
