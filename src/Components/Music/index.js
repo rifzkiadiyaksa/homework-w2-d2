@@ -1,17 +1,29 @@
 import '../../Assets/Styles/Music.css';
 
-function Music({url, title, artist}) {
+function Music({data, select, deselect, isSelected}) {
+
+    const handleSelect = () => {
+        select(data);
+    }
+
+    const handleDeselect = () => {
+        deselect(data);
+    }
+
     return (
         <div className='Music'>
             <div className='music-img'>
-                <img src={url} alt={title}/>
+                <img src={data.album.images[0].url} alt={data.name}/>
             </div>
             <div className='music-info'>
-                <p className='music-title'>{title}</p>
-                <p className='music-artist'>{artist}</p>
+                <p className='music-title'>{data.name}</p>
+                <p className='music-artist'>{data.artists[0].name}</p>
             </div>
             <div>
-                <button className='btn select'>Select</button>
+                {isSelected
+                    ? <button onClick={handleDeselect} className='btn selected'>Deselect</button>
+                    : <button onClick={handleSelect} className='btn select'>Select</button>
+                }
             </div>
         </div>
     );

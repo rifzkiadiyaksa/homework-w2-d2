@@ -14,7 +14,9 @@ function App() {
   const [authToken, setAuthToken] = useState("");
   const [searchKey, setSearchKey] = useState("");
   const [musicData, setMusicData] = useState([]);
-  const [isDataExist, setisDataExist] = useState(false);
+  const [isDataExist, setIsDataExist] = useState(false);
+  const [isAuthorize, setIsAuthorize] = useState(false);
+  const [selectedMusic, setSelectedMusic] = useState([]);
 
   const getReturnSpotifyAuth = (hash) => {
     const stringAfterHash = hash.substring(1);
@@ -25,6 +27,7 @@ function App() {
       return accumulater;
     }, {});
     setAuthToken(paramSplitUp.access_token);
+    setIsAuthorize(true);
   }
   
   const handleLogin = () => {
@@ -35,40 +38,73 @@ function App() {
     setSearchKey(e.target.value);
   }
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const url = "https://api.spotify.com/v1/search";
     const keywords = searchKey;
     const type = "track";
-    fetch(`${url}?q=${keywords}&type=${type}&limit=10`, {
-      headers: {
-        'Authorization' : 'Bearer ' + authToken
+    try {
+      const response = await fetch(`${url}?q=${keywords}&type=${type}&limit=10`, {
+        headers: {
+          'Authorization' : 'Bearer ' + authToken
+        }
+      })
+      if (!response.ok) {
+        switch (response.status) {
+          case 401:
+            throw new Error(`Unauthorized access, please login first`);
+            break;
+          case 403:
+            throw new Error(`Forbidden access`);
+            break;
+          default:
+            throw new Error(`HTTP error! status: ${response.status}`);
+            break;
+        }
+      } else {
+        const musicData = await response.json()
+        setMusicData(musicData.tracks.items);
+        setIsDataExist(true);
       }
-    })
-    .then(response => response.json())
-    .then(data => {
-      setMusicData(data.tracks.items);
-      setisDataExist(true);
-    });
+    } catch (error) {
+      alert(`There has been a problem with your fetch operation: ${error.message}`);
+    }
+  }
+
+  const selectMusic = (data) => {
+    const tempArrMusicId = [...selectedMusic, data.uri];
+    setSelectedMusic(tempArrMusicId);
+  }
+
+  const deselectMusic = (data) => {
+    const index = selectedMusic.id.indexOf(data.uri);
+    const tempArrMusicId = selectedMusic;
+    tempArrMusicId.splice(index, 1);
+    setSelectedMusic(tempArrMusicId);
   }
 
   useEffect(() => {
     if (window.location.hash) {
       getReturnSpotifyAuth(window.location.hash);
     }
-  });
+  }, []);
 
   return (
     <div className="App">
       <h1>Search your Track</h1>
       <button onClick={handleLogin}>Login to Spotify</button>
-      <div className='SearchBar'>
+      <form className='SearchBar' onSubmit={handleSearch}>
           <input onChange={handleInput} type="text" />
-          <input onClick={handleSearch} type="submit" value="Search" />
-      </div>
+          <input type="submit" value="Search" />
+      </form>
+      {!isAuthorize && 
+        <><p>You need to login to access this feature</p></>
+      }
       <div className='musics-wrapper'>
-        {isDataExist &&
+        {
           musicData.map((music) => {
-            return <Music key={music.id} url={music.album.images[0].url} title={music.name} artist={music.artists[0].name}/>
+            return selectedMusic.includes(music.uri)
+            ? <Music key={music.uri} data={music} select={selectMusic} deselect={deselectMusic} isSelected={true}/>
+            : <Music key={music.uri} data={music} select={selectMusic} deselect={deselectMusic} isSelected={false}/>
           })
         }
       </div>

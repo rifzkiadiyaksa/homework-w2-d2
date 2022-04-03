@@ -42,3 +42,11 @@
     font-weight: bold;
     background-color: #16a349;
 }
+
+.selected {
+    color: gray;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: white;
+    border: solid 2px #16a349;
+}
