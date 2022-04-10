@@ -7,11 +7,17 @@
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "hoist-non-react-statics": "^3.3.2",
+    "isarray": "^2.0.5",
+    "mini-create-react-context": "^0.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-is": "^18.0.0",
     "react-redux": "^7.2.8",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
     "redux": "^4.1.2",
+    "tiny-invariant": "^1.2.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -39,6 +45,7 @@
     ]
   },
   "devDependencies": {
-    "@redux-devtools/core": "^3.11.0"
+    "@redux-devtools/core": "^3.11.0",
+    "mini-css-extract-plugin": "^2.6.0"
   }
 }
